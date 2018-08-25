@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import GameContainer from './components/GameContainer'
+import { Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './store'
+import WelcomeContainer from './components/WelcomeContainer'
+import newGame from './actions/newGame'
+import { connect } from 'react-redux'
+
 
 class App extends Component {
+  componentDidMount() {
+    this.props.newGame()
+  }
+
   render() {
     return (
+      <Provider store={store}>
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+          <Route exact path="/" component={WelcomeContainer} />
+          <Route exact path="/hangman" component={GameContainer} />
       </div>
+      </Provider>
     );
   }
 }
 
-export default App;
+export default connect(null, {newGame} )(App);
